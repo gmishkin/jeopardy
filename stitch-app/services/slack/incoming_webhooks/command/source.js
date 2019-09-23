@@ -132,7 +132,7 @@ exports = async function(payload, response) {
       }
     }
     else if (text.substring(0, 9) === "response ") {
-      if (!isHost()) {
+      if (!await isHost()) {
         return "You're not the host";
       }
 
@@ -167,7 +167,7 @@ exports = async function(payload, response) {
       
     }
     else if (text.substring(0, 6) === "final ") {
-      if (!isHost()) {
+      if (!await isHost()) {
         return "You're not the host";
       }
       
@@ -234,7 +234,7 @@ exports = async function(payload, response) {
       return "Thanks for your wager of " + wagerAmount;
     }
     else if (text === "lock wagers") {
-      if (!isHost()) {
+      if (!await isHost()) {
         return "You're not the host"
       }
       const currentWeek = await getCurrentWeek();
@@ -259,7 +259,7 @@ exports = async function(payload, response) {
     }
     else {
       let hostTools = "";
-      if (isHost()) {
+      if (await isHost()) {
         hostTools += "Host tools:\n" +
           "new_week YYYY-MM-DD (start a new game--you must be global host in Stitch values)\n" +
           "response [in]correct (points) (record response, use in DM with contestant)\n" +
