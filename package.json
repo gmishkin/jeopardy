@@ -1,0 +1,13 @@
+{
+  "name": "jeopardy",
+  "version": "0.1.0",
+  "description": "Jeopardy trivia questions",
+  "private": true,
+  "scripts": {
+    "deploy": "stitch-cli import --path stitch-app"
+  },
+  "devDependencies": {
+    "eslint": "^6.4.0",
+    "mongodb-stitch-cli": "^1.7.0"
+  }
+}

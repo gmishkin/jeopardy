@@ -1,0 +1,31 @@
+{
+    "id": "5d854c0bf726f4b30fe37417",
+    "database": "jeopardy",
+    "collection": "games",
+    "roles": [
+        {
+            "name": "Super Host",
+            "apply_when": {
+                "%%user.data.name": {
+                    "$eq": "superhost"
+                }
+            },
+            "fields": {
+                "host": {},
+                "wagers_locked": {},
+                "week": {}
+            },
+            "write": true,
+            "insert": true,
+            "delete": false,
+            "additional_fields": {}
+        }
+    ],
+    "schema": {
+        "properties": {
+            "_id": {
+                "bsonType": "objectId"
+            }
+        }
+    }
+}
