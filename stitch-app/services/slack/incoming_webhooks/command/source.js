@@ -31,7 +31,7 @@ exports = async function(payload, response) {
       return;
     }
   */
-  
+
     const db = context.services.get("mongodb-atlas").db("jeopardy");
     const max_unbacked_wager = Number(context.values.get('max_unbacked_wager'));
 
@@ -101,7 +101,7 @@ exports = async function(payload, response) {
         return conversation.channel.user;
       }
     }
-    
+
     if (text.substring(0, 14) === "always_all_in ") {
       let setting;
       if (text.substring(text.length - 4) === " yes") {
