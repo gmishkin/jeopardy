@@ -103,6 +103,11 @@ exports = async function(payload, response) {
     }
 
     if (text.substring(0, 14) === "always_all_in ") {
+      const currentWeek = await getCurrentWeek();
+      if (currentWeek.wagers_locked) {
+        return "Sorry, you can't adjust your always-all-in status while wagering is locked. Wait til next week.";
+      }
+
       let setting;
       if (text.substring(text.length - 4) === " yes") {
         setting = true;
@@ -138,6 +143,10 @@ exports = async function(payload, response) {
 
       const currentWeek = await getCurrentWeek();
       const answer = text.split(" ");
+      if (answer.length < 3) {
+        return "Not enough arguments";
+      }
+
       let multiplier = 0;
       if (answer[1] === "correct") {
         multiplier = 1;
