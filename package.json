@@ -7,6 +7,7 @@
     "deploy": "stitch-cli import --path stitch-app"
   },
   "devDependencies": {
+    "bson": "^4.0.2",
     "eslint": "^6.4.0",
     "mongodb-stitch-cli": "^1.7.0"
   }
