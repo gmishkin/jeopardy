@@ -1,4 +1,4 @@
 {
     "extends": "eslint:recommended",
-    "env": {"commonjs": true}
+    "env": { "node": true }
 }
