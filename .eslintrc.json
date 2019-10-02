@@ -1,12 +1,10 @@
 {
     "extends": "eslint:recommended",
     "globals": {
-        "context": "readonly",
-        "exports": "writable"
+        "context": "readonly"
     },
     "parserOptions": {
+        "sourceType": "module",
         "ecmaVersion": 2017
-    },
-    "rules": {
     }
 }
