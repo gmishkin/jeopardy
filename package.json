@@ -4,7 +4,7 @@
   "description": "Jeopardy trivia questions",
   "private": true,
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup --config",
     "test": "mocha --require esm test",
     "deploy": "stitch-cli import --path stitch-app"
   },
