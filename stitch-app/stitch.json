@@ -4,5 +4,8 @@
     "name": "jeopardy",
     "location": "US-VA",
     "deployment_model": "LOCAL",
-    "security": {}
+    "security": {},
+    "custom_user_data_config": {
+        "enabled": false
+    }
 }
