@@ -2,7 +2,7 @@ const assert = require('assert');
 
 const BSON = require('bson');
 
-const inContention = require('../lib/in-contention').default;
+const inContention = require('../lib/in-contention/in-contention').default;
 
 describe('inContention', function () {
     describe('when there is a winner before scores are final', function () {
