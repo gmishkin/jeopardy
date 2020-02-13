@@ -1,4 +1,5 @@
 {
+    "id": "5e44d84834cb6201fd943349",
     "name": "max_unbacked_wager",
     "value": {
         "$numberInt": "1000"
