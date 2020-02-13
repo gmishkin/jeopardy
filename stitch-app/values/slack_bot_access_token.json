@@ -1,0 +1,5 @@
+{
+    "name": "slack_bot_access_token",
+    "value": "slack_bot_access_token",
+    "from_secret": true
+}

@@ -1,9 +1,7 @@
 {
-    "id": "5d828cd84a3a1a276154d2da",
     "name": "mongodb-atlas",
     "type": "mongodb-atlas",
     "config": {
-        "clusterName": "jeopardy",
         "readPreference": "primary",
         "wireProtocolEnabled": false
     },

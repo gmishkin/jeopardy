@@ -1,5 +1,4 @@
 {
-    "id": "5d855aaef726f4b30feb22f9",
     "name": "slack_access_token",
     "value": "slack_access_token",
     "from_secret": true
