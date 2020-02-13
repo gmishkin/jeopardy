@@ -2,6 +2,7 @@
     "name": "mongodb-atlas",
     "type": "mongodb-atlas",
     "config": {
+        "clusterName": "jeopardy",
         "readPreference": "primary",
         "wireProtocolEnabled": false
     },

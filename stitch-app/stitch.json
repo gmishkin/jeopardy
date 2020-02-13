@@ -1,5 +1,8 @@
 {
     "config_version": 20180301,
+    "name": "jeopardy",
+    "location": "US-VA",
+    "deployment_model": "LOCAL",
     "security": {},
     "custom_user_data_config": {
         "enabled": false
