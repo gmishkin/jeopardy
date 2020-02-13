@@ -7,5 +7,8 @@
     "security": {},
     "custom_user_data_config": {
         "enabled": false
+    },
+    "realm_config": {
+        "development_mode_enabled": false
     }
 }
