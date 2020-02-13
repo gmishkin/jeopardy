@@ -8,11 +8,13 @@ describe('inContention', function () {
     describe('when there is a winner before scores are final', function () {
         const winner = {
             _id: new BSON.ObjectId('5da13f73be917b4a6314f57f'),
+            contestant: "winner",
             min_score: 2000,
             max_score: 4000
         };
         const runnerUp = {
             _id: new BSON.ObjectId('5da14041be917b4a6314f580'),
+            contestant: "runnerUp",
             min_score: 0,
             max_score: 1000
         };
@@ -21,7 +23,7 @@ describe('inContention', function () {
             const result = inContention([winner, runnerUp]);
 
             assert.strictEqual(result.winners.length, 1, 'Expected a single winner');
-            assert.ok(winner._id.equals(result.winners[0]), 'Expected the winner to be this one');
+            assert.ok(winner.contestant === result.winners[0], 'Expected the winner to be this one');
         });
 
         it('eliminates the other contestant', function () {
@@ -29,18 +31,20 @@ describe('inContention', function () {
 
             assert.strictEqual(result.in_contention.length, 0, 'Expected no one else to be in contention');
             assert.strictEqual(result.eliminated.length, 1, 'Expected one to be eliminated');
-            assert.ok(runnerUp._id.equals(result.eliminated[0]), 'Expected this one to be eliminated');
+            assert.ok(runnerUp.contestant === result.eliminated[0], 'Expected this one to be eliminated');
         });
     });
 
     describe('when there is a winner after scores are final', function () {
         const winner = {
             _id: new BSON.ObjectId('5da13f73be917b4a6314f57f'),
+            contestant: "winner",
             min_score: 2000,
             max_score: 2000
         };
         const runnerUp = {
             _id: new BSON.ObjectId('5da14041be917b4a6314f580'),
+            contestant: "runnerUp",
             min_score: 1000,
             max_score: 1000
         };
@@ -49,7 +53,7 @@ describe('inContention', function () {
             const result = inContention([winner, runnerUp]);
 
             assert.strictEqual(result.winners.length, 1, 'Expected a single winner');
-            assert.ok(winner._id.equals(result.winners[0]), 'Expected the winner to be this one');
+            assert.ok(winner.contestant === result.winners[0], 'Expected the winner to be this one');
         });
 
         it('eliminates the other contestant', function () {
@@ -57,23 +61,26 @@ describe('inContention', function () {
 
             assert.strictEqual(result.in_contention.length, 0, 'Expected no one else to be in contention');
             assert.strictEqual(result.eliminated.length, 1, 'Expected one to be eliminated');
-            assert.ok(runnerUp._id.equals(result.eliminated[0]), 'Expected this one to be eliminated');
+            assert.ok(runnerUp.contestant === result.eliminated[0], 'Expected this one to be eliminated');
         });
     });
 
     describe('when there is not a winner', function () {
         const leader = {
             _id: new BSON.ObjectId('5da145ea6649e70395439e34'),
+            contestant: "leader",
             min_score: 2000,
             max_score: 2000
         }
         const inContention1 = {
             _id: new BSON.ObjectId('5da146206649e70395439e35'),
+            contestant: "inContention1",
             min_score: 1500,
             max_score: 2500
         }
         const loser = {
             _id: new BSON.ObjectId('5da146c93821438b8d37228d'),
+            contestant: "loser",
             min_score: 0,
             max_score: 400
         };
@@ -83,31 +90,34 @@ describe('inContention', function () {
 
             assert.strictEqual(result.winners.length, 0, 'Expected there to not be a winner declared');
             assert.strictEqual(result.in_contention.length, 2, 'Expected two to be in contention');
-            assert.ok(result.in_contention.find(scorecard_id => leader._id.equals(scorecard_id)), "Expect the leader to be in contention");
-            assert.ok(result.in_contention.find(scorecard_id => inContention1._id.equals(scorecard_id)), "Expect the one other to be in contention");
+            assert.ok(result.in_contention.find(scorecard_id => leader.contestant === scorecard_id), "Expect the leader to be in contention");
+            assert.ok(result.in_contention.find(scorecard_id => inContention1.contestant === scorecard_id), "Expect the one other to be in contention");
         });
 
         it('correctly identify who\'s eliminated', function () {
             const result = inContention([leader, inContention1, loser]);
 
             assert.strictEqual(result.eliminated.length, 1, 'Expected one to be eliminated');
-            assert.ok(loser._id.equals(result.eliminated[0], 'Expected this one to be eliminated'));
+            assert.ok(loser.contestant === result.eliminated[0], 'Expected this one to be eliminated');
         });
     });
 
     describe('when there is a potential tie', function () {
         const leader = {
             _id: new BSON.ObjectId('5da145ea6649e70395439e34'),
+            contestant: "leader",
             min_score: 2000,
             max_score: 2000
         }
         const contender = {
             _id: new BSON.ObjectId('5da146206649e70395439e35'),
+            contestant: "contender",
             min_score: 1500,
             max_score: 2000
         }
         const loser = {
             _id: new BSON.ObjectId('5da146c93821438b8d37228d'),
+            contestant: "loser",
             min_score: 0,
             max_score: 400
         };
@@ -120,25 +130,27 @@ describe('inContention', function () {
         it('treats both as in contention', function () {
             const result = inContention([leader, contender, loser]);
             assert.strictEqual(result.in_contention.length, 2, 'Expected both to be in contention');
-            assert.ok(result.in_contention.find(scorecard_id => leader._id.equals(scorecard_id)), "Expect the leader to be in contention");
-            assert.ok(result.in_contention.find(scorecard_id => contender._id.equals(scorecard_id)), "Expect the potential tie one other to be in contention");
+            assert.ok(result.in_contention.find(scorecard_id => leader.contestant === scorecard_id), "Expect the leader to be in contention");
+            assert.ok(result.in_contention.find(scorecard_id => contender.contestant === scorecard_id), "Expect the potential tie one other to be in contention");
         });
 
         it('eliminates the loser', function () {
             const result = inContention([leader, contender, loser]);
             assert.strictEqual(result.eliminated.length, 1, 'Expected the loser to be eliminated');
-            assert.ok(loser._id.equals(result.eliminated[0]), 'Expected this one to be eliminated');
+            assert.ok(loser.contestant === result.eliminated[0], 'Expected this one to be eliminated');
         })
     });
 
     describe('when there is a tie', function () {
         const winner1 = {
             _id: new BSON.ObjectId('5da145ea6649e70395439e34'),
+            contestant: "winner1",
             min_score: 2000,
             max_score: 2000
         }
         const winner2 = {
             _id: new BSON.ObjectId('5da146206649e70395439e35'),
+            contestant: "winner2",
             min_score: 2000,
             max_score: 2000
         }
@@ -151,8 +163,8 @@ describe('inContention', function () {
         it('identifies both winners', function () {
             const result = inContention([winner1, winner2, loser]);
             assert.strictEqual(result.winners.length, 2, 'Expected two winners');
-            assert.ok(result.winners.find(scorecard_id => winner1._id.equals(scorecard_id)), "Expected the first winner to be identified");
-            assert.ok(result.winners.find(scorecard_id => winner2._id.equals(scorecard_id)), "Expected the second winner to be identified");
+            assert.ok(result.winners.find(scorecard_id => winner1.contestant === scorecard_id), "Expected the first winner to be identified");
+            assert.ok(result.winners.find(scorecard_id => winner2.contestant === scorecard_id), "Expected the second winner to be identified");
         });
 
         it('sees no one is still in contention', function () {
@@ -163,23 +175,26 @@ describe('inContention', function () {
         it('eliminates the loser', function () {
             const result = inContention([winner1, winner2, loser]);
             assert.strictEqual(result.eliminated.length, 1, 'Expected the loser to be eliminated');
-            assert.ok(loser._id.equals(result.eliminated[0]), 'Expected this one to be eliminated');
+            assert.ok(loser.contestant === result.eliminated[0], 'Expected this one to be eliminated');
         });
     });
 
     describe('when losers are tied', function () {
         const winner = {
             _id: new BSON.ObjectId('5da13f73be917b4a6314f57f'),
+            contestant: "winner1",
             min_score: 2000,
             max_score: 4000
         };
         const loser1 = {
             _id: new BSON.ObjectID('5da530c5cf8f1bc515affde3'),
+            contestant: "loser1",
             min_score: 400,
             max_score: 400
         };
         const loser2 = {
             _id: new BSON.ObjectID('5da530f0cf8f1bc515affde4'),
+            contestant: "loser2",
             min_score: 400,
             max_score: 400
         };
@@ -188,7 +203,7 @@ describe('inContention', function () {
             const result = inContention([winner, loser1, loser2]);
 
             assert.strictEqual(result.winners.length, 1, 'Expected a single winner');
-            assert.ok(winner._id.equals(result.winners[0]), 'Expected the winner to be this one');
+            assert.ok(winner.contestant === result.winners[0], 'Expected the winner to be this one');
             assert.strictEqual(result.in_contention.length, 0, 'Expected no one to be in content');
         });
 
@@ -196,24 +211,27 @@ describe('inContention', function () {
             const result = inContention([winner, loser1, loser2]);
 
             assert.strictEqual(result.eliminated.length, 2, 'Expected two losers');
-            assert.ok(result.eliminated.find(scorecard_id => loser1._id.equals(scorecard_id)), 'Expected loser1 to be eliminated');
-            assert.ok(result.eliminated.find(scorecard_id => loser2._id.equals(scorecard_id)), 'Expected loser2 to be eliminated');
+            assert.ok(result.eliminated.find(scorecard_id => loser1.contestant === scorecard_id), 'Expected loser1 to be eliminated');
+            assert.ok(result.eliminated.find(scorecard_id => loser2.contestant === scorecard_id), 'Expected loser2 to be eliminated');
         });
     });
 
     describe('when two contestants in contention are tied', function () {
         const contender1 = {
             _id: new BSON.ObjectID('5da530c5cf8f1bc515affde3'),
+            contestant: "contender1",
             min_score: 2400,
             max_score: 2400
         };
         const contender2 = {
             _id: new BSON.ObjectID('5da530f0cf8f1bc515affde4'),
+            contestant: "contender2",
             min_score: 2400,
             max_score: 2400
         };
         const swingContender = {
             _id: new BSON.ObjectId('5da532847fe26ace252b50bf'),
+            contestant: "swingContender",
             min_score: 1000,
             max_score: 3000
         };
@@ -229,16 +247,19 @@ describe('inContention', function () {
     describe('when two contenders have the same range of outcomes', function () {
         const contender1 = {
             _id: new BSON.ObjectID('5da530c5cf8f1bc515affde3'),
+            contestant: "contender1",
             min_score: 1400,
             max_score: 2400
         };
         const contender2 = {
             _id: new BSON.ObjectID('5da530f0cf8f1bc515affde4'),
+            contestant: "contender2",
             min_score: 1400,
             max_score: 2400
         };
         const loser = {
             _id: new BSON.ObjectId('5da146c93821438b8d37228d'),
+            contestant: "loser",
             min_score: 400,
             max_score: 400
         };
@@ -251,14 +272,14 @@ describe('inContention', function () {
         it('puts the correct contestants as in contention', function () {
             const result = inContention([contender1, contender2, loser]);
             assert.strictEqual(result.in_contention.length, 2, 'Expected two contenders');
-            assert.ok(result.in_contention.find(scorecard_id => contender1._id.equals(scorecard_id)), "Expect the first contestant to be in contention");
-            assert.ok(result.in_contention.find(scorecard_id => contender2._id.equals(scorecard_id)), "Expect the second contestant to be in contention");
+            assert.ok(result.in_contention.find(scorecard_id => contender1.contestant === scorecard_id), "Expect the first contestant to be in contention");
+            assert.ok(result.in_contention.find(scorecard_id => contender2.contestant === scorecard_id), "Expect the second contestant to be in contention");
         });
 
         it('eliminates the loser', function () {
             const result = inContention([contender1, contender2, loser]);
             assert.strictEqual(result.eliminated.length, 1, 'Expected the loser to be eliminated');
-            assert.ok(loser._id.equals(result.eliminated[0]), 'Expected this one to be eliminated');
+            assert.ok(loser.contestant === result.eliminated[0], 'Expected this one to be eliminated');
         });
     });
 });
