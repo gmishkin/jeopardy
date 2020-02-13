@@ -127,9 +127,9 @@ describe('inContention', function () {
 
             assert.strictEqual(result.winners.length, 0, 'Expected there to not be a winner declared');
             assert.strictEqual(result.in_contention.length, 2, 'Expected two to be in contention');
-            assert.ok(result.in_contention.find(scorecard_id => riskTaker.contesetant === scorecard_id), "Expect the leader to be in contention");
+            assert.ok(result.in_contention.find(scorecard_id => riskTaker.contestant === scorecard_id), "Expect the leader to be in contention");
             assert.ok(result.in_contention.find(scorecard_id => inContention1.contestant === scorecard_id), "Expect the contestant who has answered the final to stil be in contention");
-            assert.ok(result.in_contention.find(scorecard_id => eliminated.contestant === scorecard_id), "Expect the one other to be in eliminated before answering");
+            assert.ok(result.eliminated.find(scorecard_id => eliminated.contestant === scorecard_id), "Expect the one other to be in eliminated before answering");
         });
 
         it('correctly identify who\'s eliminated', function () {
