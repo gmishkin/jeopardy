@@ -102,6 +102,44 @@ describe('inContention', function () {
         });
     });
 
+    describe('when the potential winner is all in but other scores are final', function () {
+        const riskTaker = {
+            _id: new BSON.ObjectId('5da145ea6649e70395439e34'),
+            contestant: "riskTaker",
+            min_score: 0,
+            max_score: 5400
+        };
+        const inContention1 = {
+            _id: new BSON.ObjectId('5da146206649e70395439e35'),
+            contestant: "inContention",
+            min_score: 2000,
+            max_score: 2000
+        };
+        const eliminated = {
+            _id: new BSON.ObjectId('5da146c93821438b8d37228d'),
+            contestant: "eliminated",
+            min_score: 200,
+            max_score: 400
+        };
+
+        it('correctly identify who\'s in contention', function () {
+            const result = inContention([riskTaker, inContention1, eliminated]);
+
+            assert.strictEqual(result.winners.length, 0, 'Expected there to not be a winner declared');
+            assert.strictEqual(result.in_contention.length, 2, 'Expected two to be in contention');
+            assert.ok(result.in_contention.find(scorecard_id => riskTaker.contesetant === scorecard_id), "Expect the leader to be in contention");
+            assert.ok(result.in_contention.find(scorecard_id => inContention1.contestant === scorecard_id), "Expect the contestant who has answered the final to stil be in contention");
+            assert.ok(result.in_contention.find(scorecard_id => eliminated.contestant === scorecard_id), "Expect the one other to be in eliminated before answering");
+        });
+
+        it('correctly identify who\'s eliminated', function () {
+            const result = inContention([riskTaker, inContention1, eliminated]);
+
+            assert.strictEqual(result.eliminated.length, 1, 'Expected one to be eliminated');
+            assert.ok(eliminated.contestant === result.eliminated[0], 'Expected this one to be eliminated');
+        });
+    });
+
     describe('when there is a potential tie', function () {
         const leader = {
             _id: new BSON.ObjectId('5da145ea6649e70395439e34'),
