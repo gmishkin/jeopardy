@@ -10,9 +10,9 @@
   },
   "devDependencies": {
     "bson": "^4.0.2",
-    "eslint": "^6.4.0",
+    "eslint": "^6.8.0",
     "esm": "^3.2.25",
-    "mocha": "^6.2.1",
+    "mocha": "^6.2.3",
     "mongodb-stitch-cli": "^1.10.0",
     "rollup": "^1.22.0",
     "rollup-plugin-cleanup": "^3.1.1"
